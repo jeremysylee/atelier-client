@@ -2,6 +2,7 @@ const path = require('path');
 
 const SRC_DIR = path.join(__dirname, 'client/src');
 const DIST_DIR = path.join(__dirname, 'client/dist');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: `${SRC_DIR}/index.jsx`,
@@ -9,26 +10,39 @@ module.exports = {
     filename: 'bundle.js',
     path: DIST_DIR
   },
-  mode: 'production',
+  mode: 'development',
   watch: true,
   // resolve: {
   //   extensions: ['.js', '.jsx']
   // },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()]
+  },
+
   module: {
     rules: [
       {
         test: /\.jsx?/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
-          query: {
-            presets: [['@babel/preset-react'],
-            ['@babel/preset-env']]
+          options: {
+            presets: [['@babel/preset-react'], ['@babel/preset-env']]
           }
         }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
       }
     ]
   }
-}
+};
 
 
 
