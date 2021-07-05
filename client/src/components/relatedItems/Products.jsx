@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Token from '../../../../config.js';
+import Token from '../../../dist/config.js';
 import Cards from './Cards.jsx';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation } from 'swiper/core';

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 
 // api options data
-import TOKEN from '../../../config.js';
+import TOKEN from '../../dist/config.js';
 const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-lax';
 const auth = { headers: { Authorization: TOKEN.TOKEN } };
 

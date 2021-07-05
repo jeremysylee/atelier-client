@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Ratingss from './Ratingss.jsx';
 import Reviews from './Reviews.jsx';
-import TOKEN from '../../../../config.js';
+import TOKEN from '../../../dist/config.js';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ReviewModal from './ReviewModal.jsx'

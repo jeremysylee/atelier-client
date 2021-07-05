@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react';
-import Token from '../../../../config.js';
+import Token from '../../../dist/config.js';
 import axios from 'axios';
 import Products from './Products.jsx';
 import { useSelector } from 'react-redux';

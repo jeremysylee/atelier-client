@@ -10,7 +10,7 @@ import RatingsAndReviews from './R&R/RatingsAndReviews.jsx';
 import RelatedItems from './relatedItems/RelatedItems.jsx';
 
 // api option data //
-import TOKEN from '../../../config.js';
+import TOKEN from '../../dist/config.js';
 const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-lax';
 const auth = { headers: { Authorization: TOKEN.TOKEN } };
 
