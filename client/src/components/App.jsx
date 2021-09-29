@@ -11,11 +11,12 @@ import RelatedItems from './relatedItems/RelatedItems.jsx';
 
 // api option data //
 import TOKEN from '../../dist/config.js';
-const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-lax';
+const url = 'http://localhost:3001';
 const auth = { headers: { Authorization: TOKEN.TOKEN } };
 
 
 const App = () => {
+  console.log('here:', window.location.pathname);
   const product = useSelector(state => state.productReducer.product);
   const dispatch = useDispatch();
   let [productId, setProductId] = useState(16056);
@@ -36,14 +37,14 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    getAllreviews();
     setProductId(product.id);
-    getMetaReviews();
     getStyles(product.id);
+    // getMetaReviews();
+    // getAllreviews();
   }, [product]);
 
   const getProduct = () => {
-    axios.get(`${url}/products/16056`, auth)
+    axios.get(`${url}/products/${product.id}`, auth)
       .then(({ data }) => {
         dispatch({ type: 'CHANGE_PRODUCT', product: data });
         getStyles(data.id);
@@ -55,6 +56,7 @@ const App = () => {
     if (id) {
       axios.get(`${url}/products/${id}/styles`, auth)
         .then(({ data }) => {
+          console.log(data);
           dispatch({ type: 'SET_STYLES', styles: data.results});
           dispatch({ type: 'SET_STYLE', style: getDefaultStyle(data)});
         });
@@ -72,68 +74,68 @@ const App = () => {
   };
 
 
-  const getAllreviews = () => {
-    axios.get(`${url}/reviews/?page=1&count=100&product_id=${product.id}`, auth)
-      .then(({ data }) => {
-        // console.log('DATA', data);
-        setReviews({
-          results: data.results.slice(0, 2),
-          moreReviews: data.results.slice(2),
-          allReviews: data.results
-        });
-        dispatch({ type: 'reviews', reviews: data.results });
-      })
-      .catch(err => console.error(err));
+  // const getAllreviews = () => {
+  //   axios.get(`${url}/reviews/?page=1&count=100&product_id=${product.id}`, auth)
+  //     .then(({ data }) => {
+  //       // console.log('DATA', data);
+  //       setReviews({
+  //         results: data.results.slice(0, 2),
+  //         moreReviews: data.results.slice(2),
+  //         allReviews: data.results
+  //       });
+  //       dispatch({ type: 'reviews', reviews: data.results });
+  //     })
+  //     .catch(err => console.error(err));
 
-  };
+  // };
 
-  const getMetaReviews = () => {
-    axios.get(`${url}/reviews/meta?product_id=16060`, auth)
-      .then(({ data }) => {
-        console.log('metadata', data);
-        setMetaReview(data);
-      })
-      .catch(err => console.error(err));
-  };
+  // const getMetaReviews = () => {
+  //   axios.get(`${url}/reviews/meta?product_id=16060`, auth)
+  //     .then(({ data }) => {
+  //       console.log('metadata', data);
+  //       setMetaReview(data);
+  //     })
+  //     .catch(err => console.error(err));
+  // };
 
-  const handleMoreReviews = (e) => {
-    setReviews({
-      results: reviews.results.concat(reviews.moreReviews.slice(0, 2)),
-      moreReviews: reviews.moreReviews.slice(2)
-    });
-  };
+  // const handleMoreReviews = (e) => {
+  //   setReviews({
+  //     results: reviews.results.concat(reviews.moreReviews.slice(0, 2)),
+  //     moreReviews: reviews.moreReviews.slice(2)
+  //   });
+  // };
 
-  const handleHelpfulness = (id, helpfulnessNumber) => {
+  // const handleHelpfulness = (id, helpfulnessNumber) => {
 
-    let updatedHelpfulness = {
-      helpfulness: helpfulnessNumber + 1
-    };
-    axios.put(`${url}/reviews/${id}/helpful`, updatedHelpfulness, auth)
-      .catch(err => console.error(err));
-  };
+  //   let updatedHelpfulness = {
+  //     helpfulness: helpfulnessNumber + 1
+  //   };
+  //   axios.put(`${url}/reviews/${id}/helpful`, updatedHelpfulness, auth)
+  //     .catch(err => console.error(err));
+  // };
 
-  const handleSortReviews = async (e) => {
-    // setSort(e)
-    // (async () => {
-    const reviewsList = await axios({
-      method: 'GET',
-      url: `${url}/reviews/`,
-      params: {
-        page: 1,
-        count: 10,
-        sort: e,
-        'product_id': product.id
-      },
-      headers: auth.headers
-    });
-    console.log('handleSortReviews called');
-    setReviews({
-      results: reviewsList.data.results.slice(0, 2),
-      moreReviews: reviewsList.data.results.slice(2),
-      sort: e
-    });
-    // })();
-  };
+  // const handleSortReviews = async (e) => {
+  //   // setSort(e)
+  //   // (async () => {
+  //   const reviewsList = await axios({
+  //     method: 'GET',
+  //     url: `${url}/reviews/`,
+  //     params: {
+  //       page: 1,
+  //       count: 10,
+  //       sort: e,
+  //       'product_id': product.id
+  //     },
+  //     headers: auth.headers
+  //   });
+  //   console.log('handleSortReviews called');
+  //   setReviews({
+  //     results: reviewsList.data.results.slice(0, 2),
+  //     moreReviews: reviewsList.data.results.slice(2),
+  //     sort: e
+  //   });
+  //   // })();
+  // };
 
   return (
     <div>
@@ -143,13 +145,13 @@ const App = () => {
       <div className='QandA'>
         <QandA productId={productId}/>
       </div>
-      <RatingsAndReviews
+      {/* <RatingsAndReviews
         reviews={reviews.results}
         moreReviews={reviews.moreReviews}
         handleMoreReviews={handleMoreReviews}
         handleHelpfulness={handleHelpfulness}
         handleSortReviews={handleSortReviews}
-        metaReview={metaReview} />
+        metaReview={metaReview} /> */}
     </div>
   );
 };
